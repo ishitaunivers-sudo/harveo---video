@@ -1,0 +1,1 @@
+{ "functions": { "api/video.js": { "maxDuration": 60 } } }

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HARVEO Video</title>
+<style>body{font-family:system-ui,sans-serif;background:#0a0820;color:#fff;max-width:640px;margin:40px auto;padding:0 16px}h1{letter-spacing:.14em}textarea{width:100%;min-height:130px;padding:12px;border-radius:12px;border:1px solid #444;background:#15113a;color:#fff;font:inherit}button{margin-top:12px;padding:12px 24px;border:0;border-radius:999px;background:linear-gradient(120deg,#ffb938,#ff3d8b);font-weight:700;cursor:pointer}video{width:100%;margin-top:16px;border-radius:16px}</style></head>
+<body><h1>HARVEO</h1>
+<textarea id="p" placeholder="Detailed prompt paste karo"></textarea>
+<button id="g">Asli AI video banao</button><p id="s"></p><video id="v" controls hidden></video>
+<script>
+const g=document.getElementById('g'),s=document.getElementById('s'),v=document.getElementById('v');
+g.onclick=async()=>{
+  g.disabled=true;v.hidden=true;s.textContent='Video ban raha hai, 1-2 minute lag sakte hain...';
+  try{
+    const r=await fetch('/api/video',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:document.getElementById('p').value})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Error');
+    v.src=d.url;v.hidden=false;s.textContent='Video taiyar hai.';
+  }catch(e){s.textContent=e.message}
+  g.disabled=false;
+};
+</script></body></html>
